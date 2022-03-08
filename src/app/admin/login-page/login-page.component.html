@@ -1,1 +1,45 @@
-<p>login-page works!</p>
+<form class="card" [formGroup]="form" (ngSubmit)="submit()">
+  <h2>LogIn to admin panel</h2>
+
+  <div
+    class="form-control"
+    [ngClass]="{invalid: form.get('email')?.touched && form.get('email')?.invalid}"
+  >
+    <label for="email">Email:</label>
+    <input id="email" type="email" formControlName="email">
+    <div
+      class="validation"
+      *ngIf="form.get('email')?.touched && form.get('email')?.invalid"
+    >
+      <small *ngIf="form.get('email')!.errors?.['required']">Cannot be empty</small>
+      <small *ngIf="form.get('email')!.errors?.['email']">Must be email</small>
+    </div>
+  </div>
+
+  <div
+    class="form-control"
+    [ngClass]="{invalid: form.get('password')?.touched && form.get('password')?.invalid}"
+  >
+    <label for="password">Password:</label>
+    <input id="password" type="password" autocomplete="on" formControlName="password">
+    <div
+      class="validation"
+      *ngIf="form.get('password')!.touched && form.get('password')!.invalid"
+    >
+      <small *ngIf="form.get('password')!.errors?.['required']">Cannot be empty.</small>
+      <small *ngIf="!form.get('password')!.errors?.['minlenght']">
+        Password length must be at least
+        {{form.get('password')!.errors?.['minlength']?.requiredLength || 6}}
+        , actual
+        {{form.get('password')!.errors?.['minlength']?.actualLength || 0}}
+      </small>
+    </div>
+  </div>
+
+  <button
+    type="submit"
+    class="btn btn-primary"
+    [disabled]="form.invalid"
+  >LogIn
+  </button>
+</form>
