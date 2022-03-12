@@ -13,7 +13,7 @@ export class LoginPageComponent implements OnInit {
 
   form: FormGroup
   submitted: boolean = false
-  message: string
+  message: string | undefined
 
   constructor(
     public auth: AuthService,
@@ -26,6 +26,8 @@ export class LoginPageComponent implements OnInit {
       if (params['loginAgain'])
       {
         this.message = "Something went wrong, please login again."
+      }else if(params['authFailed']){
+        this.message = "This session has ended. Sign in again."
       }
     })
 

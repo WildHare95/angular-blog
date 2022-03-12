@@ -7,7 +7,7 @@ import {catchError, tap} from "rxjs/operators";
 import {FbAuthResponse} from "../../../../environments/interface";
 
 
-@Injectable()
+@Injectable({providedIn: 'root'})
 export class AuthService {
 
   public error$: Subject<string> = new Subject<string>()
@@ -26,7 +26,7 @@ export class AuthService {
 
   login(user: User): Observable<any> {
     user.returnSecureToken = true
-    return this.http.post(`https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${environment.apiKey}`, user)
+    return this.http.post<FbAuthResponse>(`https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${environment.apiKey}`, user)
       .pipe(
         tap(res => this.setToken(res)),
         catchError(err => this.handleError(err))
@@ -58,7 +58,7 @@ export class AuthService {
     return throwError(error)
   }
 
-  private setToken(response: any | null) {
+  private setToken(response: FbAuthResponse | null) {
     if (response) {
       const expDate = new Date(new Date().getTime() + +response.expiresIn * 1000)
       localStorage.setItem('fb-token', response.idToken)
