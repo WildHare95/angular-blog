@@ -12,6 +12,8 @@ import {SharedModule} from "../shared/shared.module";
 import {AuthGuard} from "./shared/services/auth.guard";
 import {PostService} from "../shared/post.service";
 import {AuthInterceptor} from "../shared/auth.interceptor";
+import {SearchPipe} from "./shared/search.pipe";
+import { AlertComponent } from './shared/components/alert/alert.component';
 
 @NgModule({
   imports: [
@@ -37,7 +39,9 @@ import {AuthInterceptor} from "../shared/auth.interceptor";
     LoginPageComponent,
     DashboardPageComponent,
     CreatePageComponent,
-    EditPageComponent
+    EditPageComponent,
+    SearchPipe,
+    AlertComponent
   ],
   providers: [AuthGuard]
   }

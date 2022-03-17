@@ -10,7 +10,7 @@ import {PostService} from "../../shared/post.service";
 })
 export class CreatePageComponent implements OnInit {
 
-  form: FormGroup
+  form!: FormGroup
 
   constructor(private postsService: PostService) { }
 
