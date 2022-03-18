@@ -1,19 +1,22 @@
-<div class="post">
-  <div class="header">
-    <h1>Post title</h1>
+<div *ngIf="post$ | async as post; else loading">
+  <div class="post">
+    <div class="header">
+      <h1>{{post.title}}</h1>
 
-    <button routerLink="/" class="btn btn-link">To Home Page</button>
-  </div>
+      <button routerLink="/" class="btn btn-link">To Home Page</button>
+    </div>
 
-  <div class="info">
-    <strong>Author</strong>
-    <small>07.03.2022</small>
-  </div>
+    <div class="info">
+      <strong>{{post.author}}</strong>
+      <small>{{post.date | date:'long'}}</small>
+    </div>
 
-  <div>
-    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Assumenda enim error fugit praesentium tempore. Ab assumenda, beatae commodi eius magnam placeat quasi. Accusamus aliquam aliquid architecto at enim esse, est eveniet excepturi explicabo inventore ipsa nostrum officiis provident qui, ratione rem repellendus reprehenderit sed voluptate, voluptates? Dolorum hic ipsum placeat.</p>
-    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Assumenda enim error fugit praesentium tempore. Ab assumenda, beatae commodi eius magnam placeat quasi. Accusamus aliquam aliquid architecto at enim esse, est eveniet excepturi explicabo inventore ipsa nostrum officiis provident qui, ratione rem repellendus reprehenderit sed voluptate, voluptates? Dolorum hic ipsum placeat.</p>
-    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Assumenda enim error fugit praesentium tempore. Ab assumenda, beatae commodi eius magnam placeat quasi. Accusamus aliquam aliquid architecto at enim esse, est eveniet excepturi explicabo inventore ipsa nostrum officiis provident qui, ratione rem repellendus reprehenderit sed voluptate, voluptates? Dolorum hic ipsum placeat.</p>
-    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Assumenda enim error fugit praesentium tempore. Ab assumenda, beatae commodi eius magnam placeat quasi. Accusamus aliquam aliquid architecto at enim esse, est eveniet excepturi explicabo inventore ipsa nostrum officiis provident qui, ratione rem repellendus reprehenderit sed voluptate, voluptates? Dolorum hic ipsum placeat.</p>
+    <div>
+      <quill-view-html [content]="post.text"></quill-view-html>
+    </div>
   </div>
 </div>
+
+<ng-template #loading>
+  <p class="text-center">Loading post...</p>
+</ng-template>

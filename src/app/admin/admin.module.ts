@@ -14,6 +14,7 @@ import {PostService} from "../shared/post.service";
 import {AuthInterceptor} from "../shared/auth.interceptor";
 import {SearchPipe} from "./shared/search.pipe";
 import { AlertComponent } from './shared/components/alert/alert.component';
+import {AlertService} from "./shared/services/alert.service";
 
 @NgModule({
   imports: [
@@ -43,7 +44,7 @@ import { AlertComponent } from './shared/components/alert/alert.component';
     SearchPipe,
     AlertComponent
   ],
-  providers: [AuthGuard]
+  providers: [AuthGuard, AlertService]
   }
 )
 export class AdminModule {

@@ -4,6 +4,7 @@ import {PostService} from "../../shared/post.service";
 import {switchMap} from "rxjs";
 import {Post} from "../../shared/Interfaces";
 import {FormControl, FormGroup, Validators} from "@angular/forms";
+import {AlertService} from "../shared/services/alert.service";
 
 @Component({
   selector: 'app-edit-page',
@@ -17,6 +18,7 @@ export class EditPageComponent implements OnInit {
   submitted = false
 
   constructor(
+    private alert: AlertService,
     private route: ActivatedRoute,
     private postService: PostService
   ) {
@@ -40,7 +42,6 @@ export class EditPageComponent implements OnInit {
       return
     }
 
-
     this.submitted = true
 
     this.postService.update({
@@ -48,6 +49,7 @@ export class EditPageComponent implements OnInit {
       title: this.form.value.title,
       text: this.form.value.text
     }).subscribe(() => {
+      this.alert.danger("Post was successfully changed")
       this.submitted = false
     })
   }
