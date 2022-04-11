@@ -4,13 +4,16 @@ import {AuthService} from "../admin/shared/services/auth.service";
 import {Router} from "@angular/router";
 import {Observable, throwError} from "rxjs";
 import {catchError} from "rxjs/operators";
+import {Store} from "@ngrx/store";
+import {successCheck} from "../store/actions/admin.actions";
 
 @Injectable({providedIn: 'root'})
 export class AuthInterceptor implements HttpInterceptor {
 
   constructor(
     private auth: AuthService,
-    private router: Router
+    private router: Router,
+    private store: Store
   ) {
   }
 
@@ -34,8 +37,12 @@ export class AuthInterceptor implements HttpInterceptor {
               queryParams:{
                 authFailed: true
               }
-            })
+            }).then(r => console.log(r))
           }
+/*          if (error.status === 400)
+          {
+            this.store.dispatch(successCheck({submitted: false}))
+          }*/
           return throwError(error)
         })
       )

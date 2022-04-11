@@ -1,7 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {PostService} from "../shared/post.service";
-import {Observable} from "rxjs";
-import {Post} from "../shared/Interfaces";
+import {Store} from "@ngrx/store";
+import {selectPosts} from "../store/selectors/posts.selectors";
+import {getAllPosts} from "../store/actions/posts.actions";
+
 
 @Component({
   selector: 'app-home-page',
@@ -10,12 +12,14 @@ import {Post} from "../shared/Interfaces";
 })
 export class HomePageComponent implements OnInit {
 
-  constructor(private postService: PostService) { }
+  posts$ = this.store.select(selectPosts)
 
-  posts$!: Observable<Post[]>
+  constructor(
+    private postService: PostService,
+    private store: Store
+    ) { }
 
   ngOnInit() {
-    this.posts$ = this.postService.getAll()
+    this.store.dispatch(getAllPosts())
   }
-
 }

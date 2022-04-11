@@ -7,14 +7,10 @@ import { DashboardPageComponent } from './dashboard-page/dashboard-page.componen
 import { CreatePageComponent } from './create-page/create-page.component';
 import { EditPageComponent } from './edit-page/edit-page.component';
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
-import {AuthService} from "./shared/services/auth.service";
 import {SharedModule} from "../shared/shared.module";
 import {AuthGuard} from "./shared/services/auth.guard";
-import {PostService} from "../shared/post.service";
-import {AuthInterceptor} from "../shared/auth.interceptor";
 import {SearchPipe} from "./shared/search.pipe";
 import { AlertComponent } from './shared/components/alert/alert.component';
-import {AlertService} from "./shared/services/alert.service";
 
 @NgModule({
   imports: [
@@ -44,7 +40,7 @@ import {AlertService} from "./shared/services/alert.service";
     SearchPipe,
     AlertComponent
   ],
-  providers: [AuthGuard, AlertService]
+  providers: [AuthGuard]
   }
 )
 export class AdminModule {

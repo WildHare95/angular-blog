@@ -17,12 +17,18 @@
 
     <div class="form-control">
       <quill-editor formControlName="text"></quill-editor>
+      <div
+        class="validation"
+        *ngIf="form.get('text')?.touched && form.get('text')?.invalid"
+      >
+        <small *ngIf="form.get('text')!.errors?.['required']">Enter post title</small>
+      </div>
     </div>
 
     <button
       class="btn btn-primary"
       type="submit"
-      [disabled]="form.invalid || submitted"
+      [disabled]="isValid || submitted"
     >
       Refresh
     </button>

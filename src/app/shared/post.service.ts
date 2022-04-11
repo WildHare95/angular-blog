@@ -3,14 +3,17 @@ import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
 import {Post} from "./Interfaces";
 import {environment} from "../../environments/environment";
-import {map, switchMap} from "rxjs/operators";
+import {map} from "rxjs/operators";
+import {Actions} from "@ngrx/effects";
+import {Action} from "@ngrx/store";
 
 @Injectable({providedIn: "root"})
 export class PostService {
+
   constructor(private http: HttpClient) {
   }
 
-  create(post: Post): Observable<Post> {
+  create(post: Post): Observable<any> {
     return this.http.post<Post>(`${environment.FbDbUrl}/posts.json`, post)
       .pipe(map((response: any) => { // response must have type FbCreateResponse
         // console.log(response) will return {name: "string"}
@@ -33,7 +36,7 @@ export class PostService {
       }))
   }
 
-  getById(id: string): Observable<Post> {
+  getById(id: string ): Observable<Post> {
     return this.http.get<Post>(`${environment.FbDbUrl}/posts/${id}.json`)
       .pipe(map((post: Post) => {
         return {
@@ -43,8 +46,8 @@ export class PostService {
       }))
   }
 
-  remove(id: string): Observable<void> {
-    return this.http.delete<void>(`${environment.FbDbUrl}/posts/${id}.json`)
+  remove(id: string): Observable<any> {
+     return this.http.delete<void>(`${environment.FbDbUrl}/posts/${id}.json`)
   }
 
   update(post: Post): Observable<Post> {

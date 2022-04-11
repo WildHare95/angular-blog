@@ -5,7 +5,14 @@ import {switchMap} from "rxjs";
 import {Post} from "../../shared/Interfaces";
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {AlertService} from "../shared/services/alert.service";
+import {UntilDestroy, untilDestroyed} from "@ngneat/until-destroy";
+import {selectPostById, submitted} from "../../store/selectors/posts.selectors";
+import {Store} from "@ngrx/store";
+import {getPostById} from "../../store/actions/posts.actions";
+import {successCheck, updatePost} from "../../store/actions/admin.actions";
 
+
+@UntilDestroy()
 @Component({
   selector: 'app-edit-page',
   templateUrl: './edit-page.component.html',
@@ -14,43 +21,50 @@ import {AlertService} from "../shared/services/alert.service";
 export class EditPageComponent implements OnInit {
 
   form!: FormGroup;
-  post!: Post;
-  submitted = false
+  post!: Post
+  post$ = this.store.select(selectPostById)
+  submitted!: boolean
 
   constructor(
     private alert: AlertService,
     private route: ActivatedRoute,
-    private postService: PostService
+    private store: Store,
   ) {
   }
 
-  ngOnInit(): void {
-    this.route.params.pipe(switchMap((params: Params) => {
-        return this.postService.getById(params['id'])
-      })
-    ).subscribe((post: Post) => {
-      this.post = post
+  get isValid(): boolean {
+    return this.form.invalid
+  }
+
+
+  ngOnInit() {
+    this.store.select(submitted).subscribe((requestSuccess ) =>
+      this.submitted = requestSuccess
+    )
+
+    this.store.dispatch(getPostById({id: this.route.snapshot.params['id']}))
+    this.post$.pipe(untilDestroyed(this)).subscribe((post: Post | null) => {
+      this.post = post!
       this.form = new FormGroup({
-        title: new FormControl(post.title, Validators.required),
-        text: new FormControl(post.text, Validators.required)
+        title: new FormControl(post?.title, Validators.required),
+        text: new FormControl(post?.text, Validators.required)
       })
     })
   }
 
   submit() {
-    if (this.form.invalid){
+    if (this.form.invalid) {
       return
     }
 
-    this.submitted = true
-
-    this.postService.update({
+    const post: Post = {
       ...this.post,
       title: this.form.value.title,
       text: this.form.value.text
-    }).subscribe(() => {
-      this.alert.danger("Post was successfully changed")
-      this.submitted = false
-    })
+    }
+
+    this.store.dispatch(updatePost({payload: post}))
+    this.store.dispatch(successCheck({submitted: true}))
+
   }
 }

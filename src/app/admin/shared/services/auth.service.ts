@@ -1,7 +1,7 @@
 import {Injectable} from "@angular/core";
 import {HttpClient, HttpErrorResponse} from "@angular/common/http";
 import {User} from "../../../shared/Interfaces";
-import {Observable, Subject ,throwError} from "rxjs";
+import {Observable, Subject, throwError} from "rxjs";
 import {environment} from "../../../../environments/environment";
 import {catchError, tap} from "rxjs/operators";
 import {FbAuthResponse} from "../../../../environments/interface";
@@ -25,16 +25,19 @@ export class AuthService {
   }
 
   login(user: User): Observable<any> {
-    user.returnSecureToken = true
-    return this.http.post<FbAuthResponse>(`https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${environment.apiKey}`, user)
+    const person = {
+      ...user,
+      returnSecureToken: true
+    }
+    return this.http.post<FbAuthResponse>(`https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${environment.apiKey}`, person)
       .pipe(
-        tap(res => this.setToken(res)),
+        tap(res => AuthService.setToken(res)),
         catchError(err => this.handleError(err))
       )
   }
 
   logout() {
-    this.setToken(null)
+    AuthService.setToken(null)
   }
 
   isAuthenticated(): boolean {
@@ -58,7 +61,7 @@ export class AuthService {
     return throwError(error)
   }
 
-  private setToken(response: FbAuthResponse | null) {
+  private static setToken(response: FbAuthResponse | null) {
     if (response) {
       const expDate = new Date(new Date().getTime() + +response.expiresIn * 1000)
       localStorage.setItem('fb-token', response.idToken)

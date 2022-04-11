@@ -24,7 +24,9 @@ body {
   color: #333;
 }
 
-a {
+button,a {
+  border: none;
+  background: none;
   color: var(--primary-color);
   cursor: pointer;
   text-decoration: none;
@@ -47,6 +49,9 @@ img {
   margin: auto;
   overflow: hidden;
   padding: 0 2rem;
+  @media screen and (max-width: 426px){
+    padding: 0 0.2rem;
+  }
 }
 
 .text-primary {
@@ -292,5 +297,9 @@ table th {
     &:hover {
       color: var(--light-color);
     }
+  }
+  @media all and (max-width:426px){
+    flex-wrap: wrap;
+    padding: 0.2rem;
   }
 }

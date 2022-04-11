@@ -4,4 +4,7 @@
   right: 50px;
   max-width: 200px;
   text-align: center;
+  @media screen and (max-width: 426px){
+    right: 0;
+  }
 }

@@ -45,7 +45,7 @@
 
   <button
   class="btn btn-block btn-dark"
-  [disabled]="form.invalid"
+  [disabled]="isValid || submitted"
   type="submit"
   >
     Create post

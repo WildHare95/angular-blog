@@ -1,4 +1,4 @@
-<div *ngIf="posts.length; else loading">
+<div *ngIf="posts$ | async as posts; else loading">
   <div class="form-control">
     <input type="text" placeholder="Search..." [(ngModel)]="searchStr">
   </div>
@@ -13,19 +13,19 @@
     </tr>
     </thead>
     <tbody>
-    <tr *ngFor="let post of posts | searchPosts:searchStr; let inx = index">
+    <tr *ngFor="let post of posts  |  searchPosts:searchStr; let inx = index">
       <td>{{inx + 1}}</td>
       <td>{{post.author}}</td>
       <td>{{post.title}}</td>
       <td>{{post.date | date:"medium"}}</td>
       <td>
-        <button
+        <a
           class="btn btn-link open"
           [routerLink]="['/admin', 'post', post.id, 'edit']"
         >
           Change
-        </button>
-        <a (click)="remove(post.id!)">Delete</a>
+        </a>
+        <button (click)="remove(post.id!)">Delete</button>
       </td>
     </tr>
     </tbody>

@@ -8,7 +8,6 @@ import {QuillModule} from "ngx-quill";
     QuillModule.forRoot()
   ],
   exports: [
-    HttpClientModule,
     QuillModule
   ]
 })
