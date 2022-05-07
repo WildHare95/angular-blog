@@ -1,4 +1,4 @@
-import {createReducer, on} from "@ngrx/store";
+import {createReducer, on, Action} from "@ngrx/store";
 import {Post} from "../../shared/Interfaces";
 import {getAllPostsSuccess, getPostByIdSuccess} from "../actions/posts.actions";
 import {removePost, successCheck} from "../actions/admin.actions";
@@ -48,3 +48,7 @@ export const postsReducer = createReducer(
   })
 )
 
+
+export function reducer(state: PostsState | undefined, action: Action) {
+  return postsReducer(state, action);
+}

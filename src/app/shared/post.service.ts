@@ -4,8 +4,6 @@ import {Observable} from "rxjs";
 import {Post} from "./Interfaces";
 import {environment} from "../../environments/environment";
 import {map} from "rxjs/operators";
-import {Actions} from "@ngrx/effects";
-import {Action} from "@ngrx/store";
 
 @Injectable({providedIn: "root"})
 export class PostService {
@@ -50,7 +48,7 @@ export class PostService {
      return this.http.delete<void>(`${environment.FbDbUrl}/posts/${id}.json`)
   }
 
-  update(post: Post): Observable<Post> {
+  update(post: Partial<Post>): Observable<Post> {
     return this.http.patch<Post>(`${environment.FbDbUrl}/posts/${post.id}.json`, post)
   }
 

@@ -21,7 +21,6 @@ export class CreatePageComponent implements OnInit {
   submitted!: boolean
 
   constructor(
-    private alert: AlertService,
     private store: Store
   ) { }
 

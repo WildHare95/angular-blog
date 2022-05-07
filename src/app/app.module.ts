@@ -19,7 +19,7 @@ import { EffectsModule } from '@ngrx/effects';
 import {PostsEffects} from "./store/effects/posts.effects";
 import {AdminEffects} from "./store/effects/admin.effects";
 
-const INTERCEPTOR_PROVIDER: Provider = {
+export const INTERCEPTOR_PROVIDER: Provider = {
   provide: HTTP_INTERCEPTORS,
   multi: true,
   useClass: AuthInterceptor

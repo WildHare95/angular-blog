@@ -13,9 +13,9 @@ import {getAllPosts} from "../store/actions/posts.actions";
 export class HomePageComponent implements OnInit {
 
   posts$ = this.store.select(selectPosts)
+  
 
   constructor(
-    private postService: PostService,
     private store: Store
     ) { }
 

@@ -21,7 +21,6 @@ export class DashboardPageComponent implements OnInit {
 
   constructor(
     private alert: AlertService,
-    private postService: PostService,
     private store: Store) {
 
   }
@@ -31,7 +30,7 @@ export class DashboardPageComponent implements OnInit {
   }
 
   remove(id: string) {
-    this.alert.warning("Post was successfully removed")
+    
     this.store.dispatch(removePost({id}))
   }
 }

@@ -12,6 +12,7 @@ import {PostService} from "../../shared/post.service";
 import {AuthService} from "../../admin/shared/services/auth.service";
 import {Router} from "@angular/router";
 import {AlertService} from "../../admin/shared/services/alert.service";
+import { of } from "rxjs";
 
 
 @Injectable()
@@ -29,10 +30,12 @@ export class AdminEffects {
   removePost$ = createEffect(() =>
     this.actions$.pipe(
       ofType(REMOVE_POST),
-      concatMap(({id}) => this.postService.remove(id))
+      concatMap(({id}) => {
+        of(this.alert.warning("Post was successfully removed!"))
+       return this.postService.remove(id)
+      })
     )
   )
-
 
   createPost$ = createEffect(() =>
     this.actions$.pipe(
@@ -42,9 +45,10 @@ export class AdminEffects {
           this.alert.success("Post was created")
           return successCheck({submitted: false})
         })
-      ))
+      )
+      )
     )
-  )
+    )
 
   updatePost$ = createEffect(() =>
     this.actions$.pipe(
